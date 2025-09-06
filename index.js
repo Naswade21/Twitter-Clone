@@ -16,6 +16,9 @@ document.addEventListener('click', function(e){
     else if(e.target.id === 'tweet-btn'){
         handleTweetBtnClick()
     }
+    else if(e.target.id === 'close-btn'){
+        modal.classList.toggle('modal-appear')
+    }
 })
  
 function handleLikeClick(tweetId){ 
