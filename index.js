@@ -1,6 +1,8 @@
 import { tweetsData } from './data.js'
 import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
 
+const modal = document.getElementById('modal')
+
 document.addEventListener('click', function(e){
     if(e.target.dataset.like){
        handleLikeClick(e.target.dataset.like) 
@@ -47,7 +49,7 @@ function handleRetweetClick(tweetId){
 }
 
 function handleReplyClick(replyId){
-    
+    modal.classList.add('modal-appear')
     document.getElementById(`replies-${replyId}`).classList.toggle('hidden')
 }
 
