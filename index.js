@@ -13,7 +13,7 @@ document.addEventListener('click', function(e){
     else if(e.target.dataset.reply){
         handleReplyClick(e.target.dataset.reply)
     }
-    else if(e.target.id === 'tweet-btn'){
+    else if(e.target.id === 'tweet-btn' || e.target.id === 'tweet-btn-modal'){
         handleTweetBtnClick()
     }
     else if(e.target.id === 'close-btn'){
@@ -66,6 +66,7 @@ function handleReplyClick(replyId){
 }
 
 function handleTweetBtnClick(){
+    const tweetInputModal = document.getElementById('tweet-input-modal')
     const tweetInput = document.getElementById('tweet-input')
 
     if(tweetInput.value){
@@ -82,6 +83,20 @@ function handleTweetBtnClick(){
         })
     render()
     tweetInput.value = ''
+    } else if(tweetInputModal.value){
+        tweetsData.unshift({
+            handle: `@ItsNasBrown`,
+            profilePic: `images/nasprofile.png`,
+            likes: 0,
+            retweets: 0,
+            tweetText: tweetInputModal.value,
+            replies: [],
+            isLiked: false,
+            isRetweeted: false,
+            uuid: uuidv4()
+        })
+    render()
+    tweetInputModal.value = ''
     }
 
 }
@@ -105,7 +120,7 @@ function getFeedHtml(){
         
         let repliesHtml = ''
         
-        if(tweet.replies.length > 0){
+        if(tweet.replies.length >= 0){
             tweet.replies.forEach(function(reply){
                 repliesHtml+=`
 <div class="tweet-reply">
