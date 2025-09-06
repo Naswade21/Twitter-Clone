@@ -52,20 +52,17 @@ function handleRetweetClick(tweetId){
 }
 
 function handleReplyClick(replyId){
-    //modal.classList.add('modal-appear')
-    document.getElementById(`replies-${replyId}`).classList.toggle('hidden')
-    //I don't want the modal to appear if hidden is toggled off
-
-    if(document.getElementById(`replies-${replyId}`).classList.toggle('hidden')){
-        modal.classList.add('modal-appear')
-    } else {
-
-    }
-
     const targetTweetObj = tweetsData.filter(function(tweet){
         return tweet.uuid === replyId
-    })
-    console.log(targetTweetObj)
+    })[0]
+
+    const toggleReply =  document.getElementById(`replies-${replyId}`).classList.toggle('hidden')
+
+    if(!toggleReply || targetTweetObj.replies.length === 0){
+        modal.classList.add('modal-appear')
+    } else{
+        modal.classList.remove('modal-appear')
+    }
 }
 
 function handleTweetBtnClick(){
