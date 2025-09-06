@@ -47,6 +47,7 @@ function handleRetweetClick(tweetId){
 }
 
 function handleReplyClick(replyId){
+    
     document.getElementById(`replies-${replyId}`).classList.toggle('hidden')
 }
 

@@ -32,8 +32,8 @@ i{
 /* layout */
 
 main, header{
-    width: 290px;
-    margin: 0 auto;
+    width: 360px;
+    margin: 2rem auto;
 }
 
 header{
@@ -116,6 +116,25 @@ button{
     width: 207px;
     font-size: 14px;
     line-height: 20px;
+}
+
+/* Modal */
+
+.close{
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.close-btn{
+    background: transparent;
+    color: black;
+    padding: auto;
+}
+
+.modal{
+    display: block;
+    border: solid;
+    padding: 2cqmax;
 }
 
 /* images */
