@@ -53,7 +53,7 @@ textarea{
     resize: none;
     padding: 10px;
     margin: 0 0 20px 0;
-    height: 60px;
+    height: 180px;
     width: 100%;
     font-size: 20px;
     line-height: 30px;
@@ -129,12 +129,18 @@ button{
     background: transparent;
     color: black;
     padding: auto;
+    transition: all 2ms;
+}
+
+.close-btn:hover{
+    color: #1DA1F2;
 }
 
 .modal{
     display: block;
     border: solid;
-    padding: 2cqmax;
+    padding: 3rem;
+    position: relative;
 }
 
 /* images */
