@@ -52,8 +52,20 @@ function handleRetweetClick(tweetId){
 }
 
 function handleReplyClick(replyId){
-    modal.classList.add('modal-appear')
+    //modal.classList.add('modal-appear')
     document.getElementById(`replies-${replyId}`).classList.toggle('hidden')
+    //I don't want the modal to appear if hidden is toggled off
+
+    if(document.getElementById(`replies-${replyId}`).classList.toggle('hidden')){
+        modal.classList.add('modal-appear')
+    } else {
+
+    }
+
+    const targetTweetObj = tweetsData.filter(function(tweet){
+        return tweet.uuid === replyId
+    })
+    console.log(targetTweetObj)
 }
 
 function handleTweetBtnClick(){
