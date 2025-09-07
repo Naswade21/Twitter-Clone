@@ -129,12 +129,38 @@ function getFeedHtml(){
             <div>
                 <p class="handle">${reply.handle}</p>
                 <p class="tweet-text">${reply.tweetText}</p>
+                <div class="tweet-details">
+                <span class="tweet-detail">
+                    <i class="fa-regular fa-comment-dots"
+                    data-reply="${reply.uuid}"
+                    ></i>
+                    ${reply.replies.length}
+                </span>
+                <span class="tweet-detail">
+                    <i class="fa-solid fa-heart ${likeIconClass}"
+                    data-like="${reply.uuid}"
+                    ></i>
+                    ${reply.likes}
+                </span>
+                <span class="tweet-detail">
+                    <i class="fa-solid fa-retweet ${retweetIconClass}"
+                    data-retweet="${reply.uuid}"
+                    ></i>
+                    ${reply.retweets}
+                </span>
+            </div>   
             </div>
         </div>
 </div>
 `
             })
         }
+
+        let specificReplyHtml = ''
+
+
+
+
         
           
         feedHtml += `

@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
+
 export const tweetsData = [   
     {
         handle: `@TrollBot66756542 💎`,
@@ -9,7 +11,7 @@ export const tweetsData = [
         replies: [],
         isLiked: false,
         isRetweeted: false,
-        uuid: '4b161eee-c0f5-4545-9c4b-8562944223ee',
+        uuid: uuidv4(),
     },    
     {
         handle: `@Elon ✅`,
@@ -21,17 +23,29 @@ export const tweetsData = [
                   {
                 handle: `@TomCruise ✅`,
                 profilePic: `images/tcruise.png`,
+                likes: 0,
+                retweets: 0,
+                isLiked: false,
+                isRetweeted: false,
                 tweetText: `Yes! Sign me up! 😎🛩`,
+                replies: [],
+                uuid: uuidv4(),
             },
                   {
                 handle: `@ChuckNorris ✅`,
                 profilePic: `images/chucknorris.jpeg`,
+                likes: 0,
+                retweets: 0,
+                isLiked: false,
+                isRetweeted: false,
                 tweetText: `I went last year😴`,
+                replies: [],
+                uuid: uuidv4(),
             },
         ],
         isLiked: false,
         isRetweeted: false,
-        uuid: '3c23454ee-c0f5-9g9g-9c4b-77835tgs2',
+        uuid: uuidv4(),
     },
         {
         handle: `@NoobCoder12`,
@@ -43,16 +57,28 @@ export const tweetsData = [
             {
                 handle: `@StackOverflower ☣️`,
                 profilePic: `images/overflow.png`,
+                likes: 0,
+                retweets: 0,
+                isLiked: false,
+                isRetweeted: false,
                 tweetText: `No. Obviosuly not. Go get a job in McDonald's.`,
+                replies: [],
+                uuid: uuidv4(),
             },
             {
                 handle: `@YummyCoder64`,
                 profilePic: `images/love.png`,
+                likes: 0,
+                retweets: 0,
+                isLiked: false,
+                isRetweeted: false,
                 tweetText: `You are wonderful just as you are! ❤️`,
+                replies: [],
+                uuid: uuidv4(),
             },
         ],
         isLiked: false,
         isRetweeted: false,
-        uuid: '8hy671sff-c0f5-4545-9c4b-1237gyys45',
+        uuid: uuidv4(),
     },     
 ]
