@@ -26,19 +26,31 @@ function handleLikeClick(tweetId){
         return tweet.uuid === tweetId
     })[0]
 
+    const targetSubTweet = targetTweetObj.replies.filter(function(sub){
+        return sub.uuid === tweetId
+    })[0]
+
+    if (targetSubTweet.isLiked){
+        targetSubTweet.likes--
+    } else {
+        targetSubTweet.likes++
+    }
+
     if (targetTweetObj.isLiked){
         targetTweetObj.likes--
-    }
+    } 
     else{
         targetTweetObj.likes++ 
     }
+
     targetTweetObj.isLiked = !targetTweetObj.isLiked
+    targetSubTweet.isLiked = !targetSubTweet.isLiked
     render()
 }
 
 function handleRetweetClick(tweetId){
     const targetTweetObj = tweetsData.filter(function(tweet){
-        return tweet.uuid === tweetId
+            return tweet.uuid === tweetId
     })[0]
     
     if(targetTweetObj.isRetweeted){
@@ -122,6 +134,13 @@ function getFeedHtml(){
         
         if(tweet.replies.length >= 0){
             tweet.replies.forEach(function(reply){
+                if (reply.isLiked){
+            likeIconClass = 'liked'
+        }
+
+        if (reply.isRetweeted){
+            retweetIconClass = 'retweeted'
+        }
                 repliesHtml+=`
 <div class="tweet-reply">
     <div class="tweet-inner">
@@ -157,10 +176,6 @@ function getFeedHtml(){
         }
 
         let specificReplyHtml = ''
-
-
-
-
         
           
         feedHtml += `
@@ -206,4 +221,5 @@ function render(){
 }
 
 render()
+
 
