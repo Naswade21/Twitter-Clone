@@ -2,22 +2,25 @@ import { tweetsData } from './data.js'
 import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
 
 const modal = document.getElementById('modal')
-const liked = document.querySelector('likee')
 
 document.addEventListener('click', function(e){
     if(e.target.dataset.like){
             handleLikeClick(e.target.dataset.like)
-            console.log('original')
     }
     else if(e.target.dataset.sublike){
         subHandleClick(e.target.dataset.sublike)
-        console.log('new')
+    }
+    else if(e.target.dataset.reply){
+        handleReplyClick(e.target.dataset.reply)
+    }
+    else if(e.target.dataset.subreply){
+        subHandleReplyClick(e.target.dataset.subreply)
     }
     else if(e.target.dataset.retweet){
         handleRetweetClick(e.target.dataset.retweet)
     }
-    else if(e.target.dataset.reply){
-        handleReplyClick(e.target.dataset.reply)
+    else if(e.target.dataset.subretweet){
+        subHandleRetweetClick(e.target.dataset.subretweet)
     }
     else if(e.target.id === 'tweet-btn' || e.target.id === 'tweet-btn-modal'){
         handleTweetBtnClick()
@@ -71,6 +74,28 @@ function handleLikeClick(tweetId){
     render()
 }
 
+function subHandleRetweetClick(tweetId){
+     const replyArray = []
+
+    tweetsData.forEach(function(hey){
+        hey.replies.forEach(function(heyman){
+            if(heyman.uuid === tweetId)
+                replyArray.push(heyman)
+        })
+    })
+
+    const replyTargetTweet = replyArray[0]
+
+    if(replyTargetTweet.isRetweeted){
+        replyTargetTweet.retweets--
+    } else {
+        replyTargetTweet.retweets++
+    }
+
+    replyTargetTweet.isRetweeted = !replyTargetTweet.isRetweeted
+    render()
+}
+
 function handleRetweetClick(tweetId){
     const targetTweetObj = tweetsData.filter(function(tweet){
             return tweet.uuid === tweetId
@@ -86,19 +111,50 @@ function handleRetweetClick(tweetId){
     render() 
 }
 
-function handleReplyClick(replyId){
-    const targetTweetObj = tweetsData.filter(function(tweet){
-        return tweet.uuid === replyId
-    })[0]
-    
+function subHandleReplyClick(replyId){
+    const replyArray = []
 
+    tweetsData.forEach(function(hey){
+        hey.replies.forEach(function(heyman){
+            if(heyman.uuid === replyId)
+                replyArray.push(heyman)
+        })
+    })
+
+    const replyTargetTweet = replyArray[0]
+
+    if(replyId && replyTargetTweet.uuid){
+        modal.classList.add('modal-appear')
+    } else if(!replyId) {
+        modal.classList.remove('modal-appear')
+    } else{
+
+    }
+        
+}
+
+function handleReplyClick(replyId){
+    const replyArray = []
+
+    tweetsData.forEach(function(hey){
+        hey.replies.forEach(function(heyman){
+            if(heyman.uuid === replyId)
+                replyArray.push(heyman)
+        })
+    })
+
+    const replyTargetTweet = replyArray[0]
+    
     const toggleReply =  document.getElementById(`replies-${replyId}`).classList.toggle('hidden')
 
-    if(!toggleReply || targetTweetObj.replies.length === 0){
+    if(replyId && toggleReply === false){
         modal.classList.add('modal-appear')
-    } else{
+    } else if(!replyId) {
         modal.classList.remove('modal-appear')
+    } else{
+
     }
+        
 }
 
 function handleTweetBtnClick(){
@@ -244,6 +300,10 @@ function getFeedHtml(){
 
 function render(){
     document.getElementById('feed').innerHTML = getFeedHtml()
+}
+
+function renderReply(){
+    document.getElementById('').innerHTML = getFeedHtml()
 }
 
 render()
