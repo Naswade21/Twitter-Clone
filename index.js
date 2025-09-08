@@ -2,10 +2,16 @@ import { tweetsData } from './data.js'
 import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
 
 const modal = document.getElementById('modal')
+const liked = document.querySelector('likee')
 
 document.addEventListener('click', function(e){
     if(e.target.dataset.like){
-       handleLikeClick(e.target.dataset.like) 
+            handleLikeClick(e.target.dataset.like)
+            console.log('original')
+    }
+    else if(e.target.dataset.sublike){
+        subHandleClick(e.target.dataset.sublike)
+        console.log('new')
     }
     else if(e.target.dataset.retweet){
         handleRetweetClick(e.target.dataset.retweet)
@@ -20,31 +26,48 @@ document.addEventListener('click', function(e){
         modal.classList.toggle('modal-appear')
     }
 })
+
+/* 
+
+Adding like, retweet and reply functionality to the subtweets. Easiest way is to tie recursion or create a function focusing on it
+
+*/
+
+function subHandleClick(tweetId){
+     const replyArray = []
+
+    tweetsData.forEach(function(hey){
+        hey.replies.forEach(function(heyman){
+            if(heyman.uuid === tweetId)
+                replyArray.push(heyman)
+        })
+    })
+
+    const replyTargetTweet = replyArray[0]
+
+    if(replyTargetTweet.isLiked){
+        replyTargetTweet.likes--
+    } else {
+        replyTargetTweet.likes++
+    }
+
+    replyTargetTweet.isLiked = !replyTargetTweet.isLiked
+    render()
+}
  
 function handleLikeClick(tweetId){ 
     const targetTweetObj = tweetsData.filter(function(tweet){
-        return tweet.uuid === tweetId
+            return tweet.uuid === tweetId
     })[0]
-
-    const targetSubTweet = targetTweetObj.replies.filter(function(sub){
-        return sub.uuid === tweetId
-    })[0]
-
-    if (targetSubTweet.isLiked){
-        targetSubTweet.likes--
-    } else {
-        targetSubTweet.likes++
-    }
 
     if (targetTweetObj.isLiked){
         targetTweetObj.likes--
-    } 
+    }
     else{
         targetTweetObj.likes++ 
     }
 
     targetTweetObj.isLiked = !targetTweetObj.isLiked
-    targetSubTweet.isLiked = !targetSubTweet.isLiked
     render()
 }
 
@@ -151,25 +174,28 @@ function getFeedHtml(){
                 <div class="tweet-details">
                 <span class="tweet-detail">
                     <i class="fa-regular fa-comment-dots"
-                    data-reply="${reply.uuid}"
+                    data-subreply="${reply.uuid}"
                     ></i>
                     ${reply.replies.length}
                 </span>
-                <span class="tweet-detail">
+                <span class="tweet-detail" >
                     <i class="fa-solid fa-heart ${likeIconClass}"
-                    data-like="${reply.uuid}"
+                    data-sublike="${reply.uuid}"
                     ></i>
                     ${reply.likes}
                 </span>
                 <span class="tweet-detail">
                     <i class="fa-solid fa-retweet ${retweetIconClass}"
-                    data-retweet="${reply.uuid}"
+                    data-subretweet="${reply.uuid}"
                     ></i>
                     ${reply.retweets}
                 </span>
             </div>   
             </div>
         </div>
+        <div class="hidden" id="replies-${reply.uuid}">
+        ${repliesHtml}
+    </div>   
 </div>
 `
             })
