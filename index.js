@@ -193,6 +193,28 @@ function handleTweetBtnClick(){
 
 }
 
+//Goal with btn click is to give a specific reply after clicking the button. Example take the id of icon clicked, and add a reply to the array 
+
+function subHandleTweetbtnClick(){
+    const tweetInputModal = document.getElementById('tweet-input-modal')
+
+    if(tweetInput.value){
+        tweetsData.unshift({
+            handle: `@Scrimba`,
+            profilePic: `images/scrimbalogo.png`,
+            likes: 0,
+            retweets: 0,
+            tweetText: tweetInput.value,
+            replies: [],
+            isLiked: false,
+            isRetweeted: false,
+            uuid: uuidv4()
+        })
+    render()
+    tweetInput.value = ''
+    }
+}
+
 function getFeedHtml(){
     let feedHtml = ``
     
@@ -300,10 +322,6 @@ function getFeedHtml(){
 
 function render(){
     document.getElementById('feed').innerHTML = getFeedHtml()
-}
-
-function renderReply(){
-    document.getElementById('').innerHTML = getFeedHtml()
 }
 
 render()
