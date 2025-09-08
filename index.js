@@ -90,6 +90,7 @@ function handleReplyClick(replyId){
     const targetTweetObj = tweetsData.filter(function(tweet){
         return tweet.uuid === replyId
     })[0]
+    
 
     const toggleReply =  document.getElementById(`replies-${replyId}`).classList.toggle('hidden')
 
@@ -157,12 +158,16 @@ function getFeedHtml(){
         
         if(tweet.replies.length >= 0){
             tweet.replies.forEach(function(reply){
+                let likeReplyIconClass = ''
+
                 if (reply.isLiked){
-            likeIconClass = 'liked'
+            likeReplyIconClass = 'liked'
         }
 
+         let retweetReplyIconClass = ''
+
         if (reply.isRetweeted){
-            retweetIconClass = 'retweeted'
+            retweetReplyIconClass = 'retweeted'
         }
                 repliesHtml+=`
 <div class="tweet-reply">
@@ -179,13 +184,13 @@ function getFeedHtml(){
                     ${reply.replies.length}
                 </span>
                 <span class="tweet-detail" >
-                    <i class="fa-solid fa-heart ${likeIconClass}"
+                    <i class="fa-solid fa-heart ${likeReplyIconClass}"
                     data-sublike="${reply.uuid}"
                     ></i>
                     ${reply.likes}
                 </span>
                 <span class="tweet-detail">
-                    <i class="fa-solid fa-retweet ${retweetIconClass}"
+                    <i class="fa-solid fa-retweet ${retweetReplyIconClass}"
                     data-subretweet="${reply.uuid}"
                     ></i>
                     ${reply.retweets}
@@ -193,15 +198,10 @@ function getFeedHtml(){
             </div>   
             </div>
         </div>
-        <div class="hidden" id="replies-${reply.uuid}">
-        ${repliesHtml}
-    </div>   
 </div>
 `
             })
         }
-
-        let specificReplyHtml = ''
         
           
         feedHtml += `
@@ -233,7 +233,7 @@ function getFeedHtml(){
             </div>   
         </div>            
     </div>
-    <div class="hidden" id="replies-${tweet.uuid}">
+    <div id="replies-${tweet.uuid}">
         ${repliesHtml}
     </div>   
 </div>
