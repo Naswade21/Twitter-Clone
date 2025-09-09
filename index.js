@@ -131,12 +131,8 @@ function subHandleReplyClick(replyId){
 }
 
 function handleReplyClick(replyId){
-    const targetTweetObj = tweetsData.filter(function(tweet){
-            return tweet.uuid === replyId
-    })[0]
 
     const toggleReply =  document.getElementById(`replies-${replyId}`).classList.toggle('hidden')
-    renderButton(targetTweetObj.uuid)
 
     if(replyId || toggleReply === false){
         modal.classList.add('modal-appear')
@@ -293,24 +289,11 @@ function getFeedHtml(){
    return feedHtml 
 }
 
-function getButtonHtml(){
-    let buttonHTML = ``
-
-    tweetsData.forEach(function(tweet){
-        tweet.replies.forEach(function(sub){
-            buttonHTML += `<button id="tweet-btn-modal-${sub.uuid}">Tweet</button>`
-        })
-    })
-    return buttonHTML
-}
 
 function render(){
     document.getElementById('feed').innerHTML = getFeedHtml()
 }
 
-function renderButton(replyId){
-    document.getElementById('btn-hold').innerHTML = getButtonHtml()
-}
 
 render()
 
