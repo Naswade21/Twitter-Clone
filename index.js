@@ -11,7 +11,7 @@ document.addEventListener('click', function(e){
         subHandleClick(e.target.dataset.sublike)
     }
     else if(e.target.dataset.reply){
-        handleReplyClick(e.target.dataset.reply)
+        handleReplyClick(e.target.dataset.reply) /////
     }
     else if(e.target.dataset.subreply){
         subHandleReplyClick(e.target.dataset.subreply)
@@ -22,19 +22,16 @@ document.addEventListener('click', function(e){
     else if(e.target.dataset.subretweet){
         subHandleRetweetClick(e.target.dataset.subretweet)
     }
-    else if(e.target.id === 'tweet-btn' || e.target.id === 'tweet-btn-modal'){
+    else if(e.target.id === 'tweet-btn'){
         handleTweetBtnClick()
+    }
+    else if(e.target.id === 'tweet-btn-modal'){
+        subHandleTweetBtnClick()
     }
     else if(e.target.id === 'close-btn'){
         modal.classList.toggle('modal-appear')
     }
 })
-
-/* 
-
-Adding like, retweet and reply functionality to the subtweets. Easiest way is to tie recursion or create a function focusing on it
-
-*/
 
 function subHandleClick(tweetId){
      const replyArray = []
@@ -134,48 +131,25 @@ function subHandleReplyClick(replyId){
 }
 
 function handleReplyClick(replyId){
-    const replyArray = []
+    const targetTweetObj = tweetsData.filter(function(tweet){
+            return tweet.uuid === replyId
+    })[0]
 
-    tweetsData.forEach(function(hey){
-        hey.replies.forEach(function(heyman){
-            if(heyman.uuid === replyId)
-                replyArray.push(heyman)
-        })
-    })
-
-    const replyTargetTweet = replyArray[0]
-    
     const toggleReply =  document.getElementById(`replies-${replyId}`).classList.toggle('hidden')
+    renderButton(targetTweetObj.uuid)
 
-    if(replyId && toggleReply === false){
+    if(replyId || toggleReply === false){
         modal.classList.add('modal-appear')
     } else if(!replyId) {
         modal.classList.remove('modal-appear')
-    } else{
-
     }
         
 }
 
-function handleTweetBtnClick(){
+function subHandleTweetBtnClick(){
     const tweetInputModal = document.getElementById('tweet-input-modal')
-    const tweetInput = document.getElementById('tweet-input')
 
-    if(tweetInput.value){
-        tweetsData.unshift({
-            handle: `@Scrimba`,
-            profilePic: `images/scrimbalogo.png`,
-            likes: 0,
-            retweets: 0,
-            tweetText: tweetInput.value,
-            replies: [],
-            isLiked: false,
-            isRetweeted: false,
-            uuid: uuidv4()
-        })
-    render()
-    tweetInput.value = ''
-    } else if(tweetInputModal.value){
+    if(tweetInputModal.value){
         tweetsData.unshift({
             handle: `@ItsNasBrown`,
             profilePic: `images/nasprofile.png`,
@@ -193,15 +167,13 @@ function handleTweetBtnClick(){
 
 }
 
-//Goal with btn click is to give a specific reply after clicking the button. Example take the id of icon clicked, and add a reply to the array 
-
-function subHandleTweetbtnClick(){
-    const tweetInputModal = document.getElementById('tweet-input-modal')
+function handleTweetBtnClick(){
+    const tweetInput = document.getElementById('tweet-input')
 
     if(tweetInput.value){
         tweetsData.unshift({
-            handle: `@Scrimba`,
-            profilePic: `images/scrimbalogo.png`,
+            handle: `@ItsNasBrown`,
+            profilePic: `images/nasprofile.png`,
             likes: 0,
             retweets: 0,
             tweetText: tweetInput.value,
@@ -213,6 +185,7 @@ function subHandleTweetbtnClick(){
     render()
     tweetInput.value = ''
     }
+
 }
 
 function getFeedHtml(){
@@ -320,8 +293,23 @@ function getFeedHtml(){
    return feedHtml 
 }
 
+function getButtonHtml(){
+    let buttonHTML = ``
+
+    tweetsData.forEach(function(tweet){
+        tweet.replies.forEach(function(sub){
+            buttonHTML += `<button id="tweet-btn-modal-${sub.uuid}">Tweet</button>`
+        })
+    })
+    return buttonHTML
+}
+
 function render(){
     document.getElementById('feed').innerHTML = getFeedHtml()
+}
+
+function renderButton(replyId){
+    document.getElementById('btn-hold').innerHTML = getButtonHtml()
 }
 
 render()
