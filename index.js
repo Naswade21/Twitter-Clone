@@ -2,6 +2,13 @@ import { tweetsData } from './data.js'
 import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
 
 const modal = document.getElementById('modal')
+const singleButton = document.getElementById('btn-hold')
+
+function getButtonHTML(replyId){
+    let buttonHTML = `<button id="tweet-btn-${replyId}">Tweet</button>`
+    return buttonHTML
+}
+
 
 document.addEventListener('click', function(e){
     if(e.target.dataset.like){
@@ -11,10 +18,12 @@ document.addEventListener('click', function(e){
         subHandleClick(e.target.dataset.sublike)
     }
     else if(e.target.dataset.reply){
-        handleReplyClick(e.target.dataset.reply) /////
+        handleReplyClick(e.target.dataset.reply)
+        console.log('main')
     }
     else if(e.target.dataset.subreply){
         subHandleReplyClick(e.target.dataset.subreply)
+        console.log('sub')
     }
     else if(e.target.dataset.retweet){
         handleRetweetClick(e.target.dataset.retweet)
@@ -24,9 +33,6 @@ document.addEventListener('click', function(e){
     }
     else if(e.target.id === 'tweet-btn'){
         handleTweetBtnClick()
-    }
-    else if(e.target.id === 'tweet-btn-modal'){
-        subHandleTweetBtnClick()
     }
     else if(e.target.id === 'close-btn'){
         modal.classList.toggle('modal-appear')
@@ -120,6 +126,8 @@ function subHandleReplyClick(replyId){
 
     const replyTargetTweet = replyArray[0]
 
+    singleButton.innerHTML = getButtonHTML(replyId)
+
     if(replyId && replyTargetTweet.uuid){
         modal.classList.add('modal-appear')
     } else if(!replyId) {
@@ -131,6 +139,7 @@ function subHandleReplyClick(replyId){
 }
 
 function handleReplyClick(replyId){
+     singleButton.innerHTML = getButtonHTML(replyId)
 
     const toggleReply =  document.getElementById(`replies-${replyId}`).classList.toggle('hidden')
 
@@ -142,8 +151,9 @@ function handleReplyClick(replyId){
         
 }
 
-function subHandleTweetBtnClick(){
+function subHandleTweetBtnClick(replyId){
     const tweetInputModal = document.getElementById('tweet-input-modal')
+    
 
     if(tweetInputModal.value){
         tweetsData.unshift({
@@ -160,7 +170,6 @@ function subHandleTweetBtnClick(){
     render()
     tweetInputModal.value = ''
     }
-
 }
 
 function handleTweetBtnClick(){
