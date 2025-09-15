@@ -5,9 +5,11 @@ const modal = document.getElementById('modal')
 const singleButton = document.getElementById('btn-hold')
 
 function getButtonHTML(replyId){
-    let buttonHTML = `<button id="tweet-btn-${replyId}">Tweet</button>`
+    let buttonHTML = `<button data-button="${replyId}">Tweet</button>`
     return buttonHTML
 }
+
+//replyId needs to pass through in eventlistener-function-translate into buttonClick
 
 
 document.addEventListener('click', function(e){
@@ -33,6 +35,9 @@ document.addEventListener('click', function(e){
     }
     else if(e.target.id === 'tweet-btn'){
         handleTweetBtnClick()
+    }
+    else if(e.target.dataset.button){
+        subHandleTweetBtnClick(e.target.dataset.button)
     }
     else if(e.target.id === 'close-btn'){
         modal.classList.toggle('modal-appear')
@@ -153,10 +158,15 @@ function handleReplyClick(replyId){
 
 function subHandleTweetBtnClick(replyId){
     const tweetInputModal = document.getElementById('tweet-input-modal')
-    
+
+    const targetTweet = tweetsData.filter(function(tweet){
+        return tweet.uuid === replyId
+    })[0]
+
+    let newTweet = targetTweet.replies
 
     if(tweetInputModal.value){
-        tweetsData.unshift({
+        newTweet.unshift({
             handle: `@ItsNasBrown`,
             profilePic: `images/nasprofile.png`,
             likes: 0,
