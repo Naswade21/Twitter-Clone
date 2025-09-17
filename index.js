@@ -262,10 +262,20 @@ function getFeedHtml(){
             </div>   
             </div>
         </div>  
+        <div id="sub-reply">
+        </div>
 </div>
 `
+        reply.replies.forEach(function(sub){
+            let subReplies = ``
+
+            subReplies += `<div id="replies-${sub.uuid}">
+        ${repliesHtml}
+    </div>`
+            return document.getElementById('sub-reply').innerHTML = subReplies
+        })
             })
-        }
+        } 
         
           
         feedHtml += `
