@@ -199,6 +199,26 @@ function handleTweetBtnClick(){
 
 }
 
+function getSubReplies(tweetId){
+    //Type in a function that gets the subReplies and insert it into the geFeedHtml...
+
+    tweetsData.forEach(function(tweet){
+        tweet.replies.forEach(function(reply){
+         reply.replies.forEach(function(sub){
+            return sub.uuid === tweetId
+         })
+        })
+    })
+}
+
+/*
+
+<div id="reply-${}">
+        ${subReplies}
+        </div>
+
+*/
+
 function getFeedHtml(){
     let feedHtml = ``
     
@@ -233,6 +253,59 @@ function getFeedHtml(){
             retweetReplyIconClass = 'retweeted'
         }
 
+        let subReplies = ``
+
+        if(reply.replies.length >= 0){
+            reply.replies.forEach(function(sub){
+                let subLike = ''
+
+                if(sub.isLiked){
+                    subLike = 'liked'
+                }
+
+                let subRetweet = ''
+
+                if(sub.isRetweeted){
+                    subRetweet = 'retweeted'
+                }
+
+                subReplies +=`
+                <div id="${sub.uuid}">
+                    <div class="tweet-reply">
+    <div class="tweet-inner">
+        <img src="${sub.profilePic}" class="profile-pic">
+            <div>
+                <p class="handle">${sub.handle}</p>
+                <p class="tweet-text">${sub.tweetText}</p>
+                <div class="tweet-details">
+                <span class="tweet-detail">
+                    <i class="fa-regular fa-comment-dots"
+                    data-subreply="${sub.uuid}"
+                    ></i>
+                    ${sub.replies.length}
+                </span>
+                <span class="tweet-detail" >
+                    <i class="fa-solid fa-heart ${subLike}"
+                    data-sublike="${sub.uuid}"
+                    ></i>
+                    ${sub.likes}
+                </span>
+                <span class="tweet-detail">
+                    <i class="fa-solid fa-retweet ${subRetweet}"
+                    data-subretweet="${sub.uuid}"
+                    ></i>
+                    ${sub.retweets}
+                </span>
+            </div>   
+            </div>
+        </div> 
+</div>
+                </div>
+                `
+            })
+
+        }
+
                 repliesHtml+=`
 <div class="tweet-reply">
     <div class="tweet-inner">
@@ -261,19 +334,11 @@ function getFeedHtml(){
                 </span>
             </div>   
             </div>
-        </div>  
-        <div id="sub-reply">
-        </div>
+        </div> 
+       ${subReplies}
 </div>
 `
-        reply.replies.forEach(function(sub){
-            let subReplies = ``
-
-            subReplies += `<div id="replies-${sub.uuid}">
-        ${repliesHtml}
-    </div>`
-            return document.getElementById('sub-reply').innerHTML = subReplies
-        })
+        
             })
         } 
         
