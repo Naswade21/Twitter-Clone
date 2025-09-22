@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
 export let tweetsData = [   
     {
         handle: `@TrollBot66756542 💎`,
-        profilePic: `./images/troll.jpg`,
+        profilePic: `images/troll.jpg`,
         likes: 27,
         retweets: 10,
         tweetText: `Buy Bitcoin, ETH Make 💰💰💰 low low prices. 
@@ -15,14 +15,14 @@ export let tweetsData = [
     },    
     {
         handle: `@Elon ✅`,
-        profilePic: `./images/musk.png`,
+        profilePic: `images/musk.png`,
         likes: 6500,
         retweets: 234,
         tweetText: `I need volunteers for a one-way mission to Mars 🪐. No experience necessary🚀`,
         replies: [
                   {
                 handle: `@TomCruise ✅`,
-                profilePic: `./images/tcruise.png`,
+                profilePic: `images/tcruise.png`,
                 likes: 0,
                 retweets: 0,
                 isLiked: false,
@@ -49,14 +49,14 @@ export let tweetsData = [
     },
         {
         handle: `@NoobCoder12`,
-        profilePic: `./images/flower.png`,
+        profilePic: `images/flower.png`,
         likes: 10,
         retweets: 3,
         tweetText: `Are you a coder if you only know HTML?`,
         replies: [
             {
                 handle: `@StackOverflower ☣️`,
-                profilePic: `./images/overflow.png`,
+                profilePic: `images/overflow.png`,
                 likes: 0,
                 retweets: 0,
                 isLiked: false,
@@ -67,7 +67,7 @@ export let tweetsData = [
             },
             {
                 handle: `@YummyCoder64`,
-                profilePic: `./images/love.png`,
+                profilePic: `images/love.png`,
                 likes: 0,
                 retweets: 0,
                 isLiked: false,
