@@ -3,15 +3,12 @@ import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
 
 const modal = document.getElementById('modal')
 const singleButton = document.getElementById('btn-hold')
-
+const tweetsFromLocalStorage = JSON.parse(localStorage.getItem("myTweetsData"))
 
 function getButtonHTML(replyId){
     let buttonHTML = `<button data-button="${replyId}">Tweet</button>`
     return buttonHTML
 }
-
-//replyId needs to pass through in eventlistener-function-translate into buttonClick
-
 
 document.addEventListener('click', function(e){
     if(e.target.dataset.like){
@@ -56,6 +53,7 @@ function subHandleLikeClick(tweetId){
     }
 
     replyTargetTweet.isLiked = !replyTargetTweet.isLiked
+    localStorage.setItem("myTweetsData", JSON.stringify(tweetsData))
     render()
 }
  
@@ -70,6 +68,8 @@ function handleLikeClick(tweetId){
     }
 
     targetTweetObj.isLiked = !targetTweetObj.isLiked
+    localStorage.setItem("myTweetsData", JSON.stringify(tweetsData))
+    console.log(tweetsFromLocalStorage)
     render()
 }
 
@@ -199,25 +199,6 @@ function handleTweetBtnClick(){
 
 }
 
-function getSubReplies(tweetId){
-    //Type in a function that gets the subReplies and insert it into the geFeedHtml...
-
-    tweetsData.forEach(function(tweet){
-        tweet.replies.forEach(function(reply){
-         reply.replies.forEach(function(sub){
-            return sub.uuid === tweetId
-         })
-        })
-    })
-}
-
-/*
-
-<div id="reply-${}">
-        ${subReplies}
-        </div>
-
-*/
 
 function getFeedHtml(){
     let feedHtml = ``
@@ -385,7 +366,7 @@ function render(){
     document.getElementById('feed').innerHTML = getFeedHtml()
 }
 
-
 render()
+
 
 
