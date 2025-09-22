@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
 
-export const tweetsData = [   
+export let tweetsData = [   
     {
         handle: `@TrollBot66756542 💎`,
         profilePic: `images/troll.jpg`,

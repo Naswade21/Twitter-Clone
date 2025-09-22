@@ -3,7 +3,12 @@ import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
 
 const modal = document.getElementById('modal')
 const singleButton = document.getElementById('btn-hold')
-const tweetsFromLocalStorage = JSON.parse(localStorage.getItem("myTweetsData"))
+let tweetsFromLocalStorage = JSON.parse(localStorage.getItem("myTweetsData"))
+
+if(!tweetsFromLocalStorage){
+    tweetsFromLocalStorage = tweetsData
+    localStorage.setItem("myTweetsData", JSON.stringify(tweetsData))
+}
 
 function getButtonHTML(replyId){
     let buttonHTML = `<button data-button="${replyId}">Tweet</button>`
@@ -44,7 +49,7 @@ document.addEventListener('click', function(e){
 
 function subHandleLikeClick(tweetId){
 
-    const replyTargetTweet = findTheTweetById(tweetsData, tweetId)
+    const replyTargetTweet = findTheTweetById(tweetsFromLocalStorage, tweetId)
 
     if(replyTargetTweet.isLiked){
         replyTargetTweet.likes--
@@ -53,12 +58,12 @@ function subHandleLikeClick(tweetId){
     }
 
     replyTargetTweet.isLiked = !replyTargetTweet.isLiked
-    localStorage.setItem("myTweetsData", JSON.stringify(tweetsData))
+    localStorage.setItem("myTweetsData", JSON.stringify(tweetsFromLocalStorage))
     render()
 }
  
 function handleLikeClick(tweetId){ 
-    const targetTweetObj = findTheTweetById(tweetsData, tweetId)
+    const targetTweetObj = findTheTweetById(tweetsFromLocalStorage, tweetId)
 
     if (targetTweetObj.isLiked){
         targetTweetObj.likes--
@@ -68,14 +73,13 @@ function handleLikeClick(tweetId){
     }
 
     targetTweetObj.isLiked = !targetTweetObj.isLiked
-    localStorage.setItem("myTweetsData", JSON.stringify(tweetsData))
-    console.log(tweetsFromLocalStorage)
+    localStorage.setItem("myTweetsData", JSON.stringify(tweetsFromLocalStorage))
     render()
 }
 
 function subHandleRetweetClick(tweetId){
 
-    const replyTargetTweet = findTheTweetById(tweetsData, tweetId)
+    const replyTargetTweet = findTheTweetById(tweetsFromLocalStorage, tweetId)
 
     if(replyTargetTweet.isRetweeted){
         replyTargetTweet.retweets--
@@ -84,11 +88,12 @@ function subHandleRetweetClick(tweetId){
     }
 
     replyTargetTweet.isRetweeted = !replyTargetTweet.isRetweeted
+    localStorage.setItem("myTweetsData", JSON.stringify(tweetsFromLocalStorage))
     render()
 }
 
 function handleRetweetClick(tweetId){
-    const targetTweetObj = findTheTweetById(tweetsData, tweetId)
+    const targetTweetObj = findTheTweetById(tweetsFromLocalStorage, tweetId)
     
     if(targetTweetObj.isRetweeted){
         targetTweetObj.retweets--
@@ -97,12 +102,13 @@ function handleRetweetClick(tweetId){
         targetTweetObj.retweets++
     }
     targetTweetObj.isRetweeted = !targetTweetObj.isRetweeted
+    localStorage.setItem("myTweetsData", JSON.stringify(tweetsFromLocalStorage))
     render() 
 }
 
 function subHandleReplyClick(replyId){
 
-    const replyTargetTweet = findTheTweetById(tweetsData, replyId)
+    const replyTargetTweet = findTheTweetById(tweetsFromLocalStorage, replyId)
 
     singleButton.innerHTML = getButtonHTML(replyId)
 
@@ -110,10 +116,7 @@ function subHandleReplyClick(replyId){
         modal.classList.add('modal-appear')
     } else if(!replyId) {
         modal.classList.remove('modal-appear')
-    } else{
-
     }
-        
 }
 
 function handleReplyClick(replyId){
@@ -130,9 +133,9 @@ function handleReplyClick(replyId){
 }
 
 //my try at recursion to access whatever id I need ---> it works!
-function findTheTweetById(tweetsData, id){
+function findTheTweetById(tweetsFromLocalStorage, id){
     let foundTweet = null
-    tweetsData.forEach(function(tweet){
+    tweetsFromLocalStorage.forEach(function(tweet){
         if(foundTweet){
             return
         }
@@ -159,7 +162,7 @@ function findTheTweetById(tweetsData, id){
 
 function subHandleTweetBtnClick(replyId){
     const tweetInputModal = document.getElementById('tweet-input-modal')
-    const targetTweet = findTheTweetById(tweetsData, replyId)
+    const targetTweet = findTheTweetById(tweetsFromLocalStorage, replyId)
 
     if(tweetInputModal.value){
         targetTweet.replies.unshift({
@@ -173,6 +176,7 @@ function subHandleTweetBtnClick(replyId){
             isRetweeted: false,
             uuid: uuidv4()
         })
+    localStorage.setItem("myTweetsData", JSON.stringify(tweetsFromLocalStorage))
     render()
     tweetInputModal.value = ''
     } 
@@ -182,7 +186,7 @@ function handleTweetBtnClick(){
     const tweetInput = document.getElementById('tweet-input')
 
     if(tweetInput.value){
-        tweetsData.unshift({
+        tweetsFromLocalStorage.unshift({
             handle: `@ItsNasBrown`,
             profilePic: `images/nasprofile.png`,
             likes: 0,
@@ -193,6 +197,7 @@ function handleTweetBtnClick(){
             isRetweeted: false,
             uuid: uuidv4()
         })
+    localStorage.setItem("myTweetsData", JSON.stringify(tweetsFromLocalStorage))
     render()
     tweetInput.value = ''
     }
@@ -203,7 +208,7 @@ function handleTweetBtnClick(){
 function getFeedHtml(){
     let feedHtml = ``
     
-    tweetsData.forEach(function(tweet){
+    tweetsFromLocalStorage.forEach(function(tweet){
         
         let likeIconClass = ''
         
