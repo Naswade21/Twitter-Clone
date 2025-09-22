@@ -21,6 +21,14 @@ i{
     color: #999;
 }
 
+.fa-circle-xmark{
+    color: #999;
+}
+
+.fa-circle-xmark:hover{
+    color: red;
+}
+
 .liked{
     color: red;
 }

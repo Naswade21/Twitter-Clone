@@ -42,10 +42,21 @@ document.addEventListener('click', function(e){
     else if(e.target.dataset.button){
         subHandleTweetBtnClick(e.target.dataset.button)
     }
+    else if(e.target.dataset.delete){
+        deleteTweetClick(e.target.dataset.delete)
+    }
     else if(e.target.id === 'close-btn'){
         modal.classList.toggle('modal-appear')
     }
 })
+
+function deleteTweetClick(deleteId){ 
+
+    tweetsFromLocalStorage = removeTweetById(tweetsFromLocalStorage, deleteId)
+   
+    localStorage.setItem("myTweetsData", JSON.stringify(tweetsFromLocalStorage))
+    render()
+}
 
 function subHandleLikeClick(tweetId){
 
@@ -157,6 +168,20 @@ function findTheTweetById(tweetsFromLocalStorage, id){
     })
 
     return foundTweet
+}
+
+function removeTweetById(tweetsFromLocalStorage, id){
+    return tweetsFromLocalStorage.filter(function(tweet){
+        if(tweet.uuid === id){
+            return false
+        }
+
+        if(Array.isArray(tweet.replies)){
+            tweet.replies = removeTweetById(tweet.replies, id)
+        }
+
+        return true
+    })
 }
 
 
@@ -282,6 +307,10 @@ function getFeedHtml(){
                     ></i>
                     ${sub.retweets}
                 </span>
+                <span class="tweet-detail">
+                    <i class="fa-regular fa-circle-xmark"
+                    data-delete="${sub.uuid}"></i>
+                </span>
             </div>   
             </div>
         </div> 
@@ -317,6 +346,10 @@ function getFeedHtml(){
                     data-subretweet="${reply.uuid}"
                     ></i>
                     ${reply.retweets}
+                </span>
+                <span class="tweet-detail">
+                    <i class="fa-regular fa-circle-xmark"
+                    data-delete="${reply.uuid}"></i>
                 </span>
             </div>   
             </div>
@@ -354,6 +387,10 @@ function getFeedHtml(){
                     data-retweet="${tweet.uuid}"
                     ></i>
                     ${tweet.retweets}
+                </span>
+                <span class="tweet-detail">
+                    <i class="fa-regular fa-circle-xmark"
+                    data-delete="${tweet.uuid}"></i>
                 </span>
             </div>   
         </div>            
