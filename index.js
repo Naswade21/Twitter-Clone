@@ -195,7 +195,7 @@ function subHandleTweetBtnClick(replyId){
     if(tweetInputModal.value){
         targetTweet.replies.unshift({
             handle: `@ItsNasBrown`,
-            profilePic: `images/nasprofile.png`,
+            profilePic: `/images/nasprofile.png`,
             likes: 0,
             retweets: 0,
             tweetText: tweetInputModal.value,
@@ -216,7 +216,7 @@ function handleTweetBtnClick(){
     if(tweetInput.value){
         tweetsFromLocalStorage.unshift({
             handle: `@ItsNasBrown`,
-            profilePic: `images/nasprofile.png`,
+            profilePic: `/images/nasprofile.png`,
             likes: 0,
             retweets: 0,
             tweetText: tweetInput.value,
