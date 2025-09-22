@@ -123,9 +123,12 @@ function subHandleReplyClick(replyId){
 
     singleButton.innerHTML = getButtonHTML(replyId)
 
-    if(replyId && replyTargetTweet.uuid){
+    const toggleReply =  document.getElementById(`${replyId}`).classList.toggle('hidden')
+
+
+    if(!toggleReply){
         modal.classList.add('modal-appear')
-    } else if(!replyId) {
+    } else if(toggleReply) {
         modal.classList.remove('modal-appear')
     }
 }
@@ -135,9 +138,9 @@ function handleReplyClick(replyId){
 
     const toggleReply =  document.getElementById(`replies-${replyId}`).classList.toggle('hidden')
 
-    if(replyId || toggleReply === false){
+    if(!toggleReply){
         modal.classList.add('modal-appear')
-    } else if(!replyId) {
+    } else if(toggleReply) {
         modal.classList.remove('modal-appear')
     }
         
