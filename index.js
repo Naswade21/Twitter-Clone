@@ -238,50 +238,27 @@ function getFeedHtml(){
     
     tweetsFromLocalStorage.forEach(function(tweet){
         
-        let likeIconClass = ''
+        let likeIconClass = tweet.isLiked ? 'liked' : ''
         
-        if (tweet.isLiked){
-            likeIconClass = 'liked'
-        }
-        
-        let retweetIconClass = ''
-        
-        if (tweet.isRetweeted){
-            retweetIconClass = 'retweeted'
-        }
+        let retweetIconClass = tweet.isRetweeted ? 'retweeted' : ''
         
         let repliesHtml = ''
         
         if(tweet.replies.length >= 0){
             
-            tweet.replies.forEach(function(reply){
-                let likeReplyIconClass = ''
+        tweet.replies.forEach(function(reply){
 
-                if (reply.isLiked){
-            likeReplyIconClass = 'liked'
-        }
+            let likeReplyIconClass = reply.isLiked ? 'liked' : ''
 
-         let retweetReplyIconClass = ''
+            let retweetReplyIconClass = reply.isRetweeted ? 'retweeted' : ''
 
-        if (reply.isRetweeted){
-            retweetReplyIconClass = 'retweeted'
-        }
-
-        let subReplies = ``
+            let subReplies = ``
 
         if(reply.replies.length >= 0){
             reply.replies.forEach(function(sub){
-                let subLike = ''
+                let subLike = sub.isLiked ? 'liked' : ''
 
-                if(sub.isLiked){
-                    subLike = 'liked'
-                }
-
-                let subRetweet = ''
-
-                if(sub.isRetweeted){
-                    subRetweet = 'retweeted'
-                }
+                let subRetweet = sub.isRetweeted ? 'retweeted' : ''
 
                 subReplies +=`
                 <div id="${sub.uuid}">
