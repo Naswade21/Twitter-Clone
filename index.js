@@ -126,10 +126,8 @@ function subHandleReplyClick(replyId){
     const toggleReply =  document.getElementById(`${replyId}`).classList.toggle('hidden')
 
 
-    if(!toggleReply){
+    if(replyId){
         modal.classList.add('modal-appear')
-    } else if(toggleReply) {
-        modal.classList.remove('modal-appear')
     }
 }
 
