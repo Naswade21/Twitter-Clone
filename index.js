@@ -119,12 +119,7 @@ function handleRetweetClick(tweetId){
 
 function subHandleReplyClick(replyId){
 
-    const replyTargetTweet = findTheTweetById(tweetsFromLocalStorage, replyId)
-
     singleButton.innerHTML = getButtonHTML(replyId)
-
-    const toggleReply =  document.getElementById(`${replyId}`).classList.toggle('hidden')
-
 
     if(replyId){
         modal.classList.add('modal-appear')
